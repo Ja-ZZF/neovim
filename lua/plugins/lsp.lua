@@ -46,7 +46,7 @@ return {
           "--clang-tidy",
           "--query-driver=/usr/bin/sdcc", -- 👈 关键！允许 clangd 查询 SDCC 的头文件
         },
-        filetypes = { "c", "cpp", "objc", "objcpp" },
+        filetypes = { "c", "cpp", "objc", "objcpp", "cc" },
         root_markers = { ".clangd", "compile_commands.json", "CMakeLists.txt", ".git" },
         capabilities = capabilities,
         on_attach = on_attach,

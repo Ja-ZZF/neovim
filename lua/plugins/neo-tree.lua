@@ -11,15 +11,18 @@ return {
       require("neo-tree").setup({
         close_if_last_window = true, -- 如果是最后一个窗口，关闭 neo-tree 时退出 Neovim
         popup_border_style = "rounded",
+        clipboard = {
+          sync = "universal",
+        },
         enable_git_status = true, -- 显示 Git 状态（需安装 git）
-        enable_diagnostics = true, -- 显示 LSP 诊断错误/警告图标
+        enable_diagnostics = false, -- 显示 LSP 诊断错误/警告图标
         open_files_do_not_replace_types = { "terminal", "trouble", "qf" }, -- 这些类型不被替换
 
         -- 文件系统源配置
         filesystem = {
           bind_to_cwd = false, -- 不强制绑定到 cwd
           follow_current_file = {
-            enabled = true, -- 自动展开并聚焦当前文件
+            enabled = false, -- 自动展开并聚焦当前文件
           },
           use_libuv_file_watcher = true, -- 使用 libuv 监听文件变化（无需手动刷新）
           filtered_items = {
@@ -32,7 +35,7 @@ return {
         -- 窗口 & 快捷键
         window = {
           position = "left", -- 左侧 sidebar
-          width = 26, -- 固定宽度
+          width = 0.15, -- 固定宽度
         },
 
         -- 可选：启用 source selector（winbar 或 statusline）

@@ -1,5 +1,5 @@
 return {
-  -- DAP调试
+  -- DAP 调试
   {
     "mfussenegger/nvim-dap",
     config = function()
@@ -19,43 +19,52 @@ return {
       vim.cmd("highlight DapBreakpointCondition guifg=#F1FA8C")
       vim.cmd("highlight DapBreakpointRejected guifg=#FF79C6")
 
-      -- 🧩 Linux 下使用 lldb 或 codelldb
+      -- 💻 桌面 LLDB
       dap.adapters.lldb = {
         type = "executable",
-        -- ✅ 如果你是自己编译的 lldb（/usr/local/bin/lldb）
-        -- command = "/usr/local/bin/lldb",
-        -- ⚙️ 如果你用的是 VSCode codelldb 扩展（推荐）
         command = "/usr/local/bin/lldb-dap",
         name = "lldb",
       }
 
-      -- 🧠 自动检测可执行文件
+      -- 注册 cortex-debug 作为 DAP 适配器
+      dap.adapters.cortex_debug = {
+        type = "executable",
+        command = "node",
+        args = {
+          os.getenv("HOME") .. "/.local/share/cortex-debug/dist/debugadapter.js",
+        },
+      }
+
+      -- 自动检测可执行文件
       local function get_default_executable()
         local cwd = vim.fn.getcwd()
         local build = cwd .. "/build"
-        local bin_dir = build .. "/bin"
-
-        -- 查找 build/bin 或 build 下的 ELF 文件
-        local exe_candidates = vim.fn.glob(bin_dir .. "/*", false, true)
-        if #exe_candidates == 0 then
-          exe_candidates = vim.fn.glob(build .. "/*", false, true)
+        local exe_candidates = vim.fn.glob(build .. "/*.elf", false, true)
+        if #exe_candidates > 0 then
+          return vim.fn.input("Path to executable: ", exe_candidates[1], "file")
         end
-
-        -- 过滤掉非可执行文件
-        local executables = {}
-        for _, f in ipairs(exe_candidates) do
-          if vim.fn.executable(f) == 1 then
-            table.insert(executables, f)
-          end
-        end
-
-        if #executables > 0 then
-          return vim.fn.input("Path to executable: ", executables[1], "file")
-        end
-
         return vim.fn.input("Path to executable: ", cwd .. "/", "file")
       end
 
+      -- 配置调试项（以 OpenOCD + STM32 为例）
+      dap.configurations.c = {
+        {
+          name = "Debug STM32 via OpenOCD",
+          type = "cortex_debug", -- 必须与 adapter 名一致
+          request = "launch",
+          executable = get_default_executable, -- 替换为你的 .elf 文件路径
+          cwd = "${workspaceFolder}",
+          servertype = "openocd",
+          configFiles = {
+            "interface/stlink.cfg", -- 根据你的调试器修改
+            "target/stm32f4x.cfg", -- 根据你的芯片修改
+          },
+          gdbPath = "gdb-multiarch", -- 👈 关键！指定 GDB 路径
+          runToMain = true,
+          showDevDebugOutput = true, -- 调试时开启，成功后可关闭
+        },
+      }
+      -- C/C++ 桌面调试
       dap.configurations.cpp = {
         {
           name = "Launch file",
@@ -67,7 +76,6 @@ return {
           args = {},
         },
       }
-      dap.configurations.c = dap.configurations.cpp
 
       -- 快捷键
       map("n", "<F5>", dap.continue, opts)
@@ -90,43 +98,42 @@ return {
   {
     "rcarriga/nvim-dap-ui",
     dependencies = "mfussenegger/nvim-dap",
+    opts = {
+      icons = { expanded = "▾", collapsed = "▸" },
+      layouts = {
+        {
+          elements = { "scopes", "breakpoints", "stacks", "watches" },
+          size = 40,
+          position = "right",
+        },
+        {
+          elements = { "repl", "console" },
+          size = 10,
+          position = "bottom",
+        },
+      },
+      floating = {
+        max_height = 0.9,
+        max_width = 0.5,
+        border = "rounded",
+        mappings = { close = { "q", "<Esc>" } },
+      },
+      controls = {
+        enabled = true,
+        element = "repl",
+        icons = {
+          pause = "",
+          play = "",
+          step_into = "",
+          step_over = "",
+          step_out = "",
+          terminate = "■",
+        },
+      },
+    },
     config = function()
       local dapui = require("dapui")
-      dapui.setup({
-        icons = { expanded = "▾", collapsed = "▸" },
-        layouts = {
-          {
-            elements = { "scopes", "breakpoints", "stacks", "watches" },
-            size = 40,
-            position = "right",
-          },
-          {
-            elements = { "repl", "console" },
-            size = 10,
-            position = "bottom",
-          },
-        },
-        floating = {
-          max_height = 0.9,
-          max_width = 0.5,
-          border = "rounded",
-          mappings = { close = { "q", "<Esc>" } },
-        },
-        controls = {
-          enabled = true,
-          element = "repl",
-          icons = {
-            pause = "",
-            play = "",
-            step_into = "",
-            step_over = "",
-            step_out = "",
-            terminate = "■",
-          },
-        },
-      })
-
-      -- 自动打开/关闭 dapui
+      dapui.setup()
       local dap = require("dap")
       dap.listeners.after.event_initialized["dapui_config"] = function()
         dapui.open()

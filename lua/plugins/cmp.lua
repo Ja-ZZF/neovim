@@ -21,6 +21,9 @@ return {
 
       require("luasnip.loaders.from_vscode").lazy_load()
 
+      -- ✅ 关键：让 cpp 文件也能用 c 片段
+      luasnip.filetype_extend("cpp", { "c" })
+
       -- ====== 🧩 主补全配置 ======
       cmp.setup({
         snippet = {

@@ -2,8 +2,9 @@ return {
   "sphamba/smear-cursor.nvim",
 
   opts = {
-    stiffness = 0.65,
-    trailing_stiffness = 0.64,
+    stiffness = 0.5,
+    trailing_stiffness = 0.5,
+    matrix_pixel_threshold = 0.5,
     min_horizontal_distance_smear = 4,
     min_vertical_distance_smear = 4,
     time_interval = 7,

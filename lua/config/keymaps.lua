@@ -12,14 +12,12 @@ vim.g.mapleader = " " -- 空格为 leader
 -- ===============================
 -- NvimTree 文件树
 -- ===============================
-map("n", "<leader>e", ":NvimTreeToggle<CR>", opts) -- 打开/关闭文件树
-map("n", "<leader>r", ":NvimTreeRefresh<CR>", opts) -- 刷新文件树
+-- map("n", "<leader>e", ":NvimTreeToggle<CR>", opts) -- 打开/关闭文件树
+-- map("n", "<leader>r", ":NvimTreeRefresh<CR>", opts) -- 刷新文件树
 
--- ===============================
--- bufferline 顶部 Tabs
--- ===============================
-map("n", "<S-l>", ":BufferLineCycleNext<CR>", opts) -- 下一个 Tab
-map("n", "<S-h>", ":BufferLineCyclePrev<CR>", opts) -- 上一个 Tab
+-- 下一个 / 上一个 Tab
+map("n", "<leader><PageDown>", ":BufferLineCycleNext<CR>", opts) -- 下一个 Tab
+map("n", "<leader><PageUp>", ":BufferLineCyclePrev<CR>", opts) -- 上一个 Tab
 
 -- 快速跳转到指定 Tab（1~9）
 for i = 1, 9 do
@@ -65,7 +63,7 @@ vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
 -- ===============================
 -- 底部终端
 -- ===============================
-map("n", "<leader>t", ":botright 10split | terminal<CR>i", opts) -- 打开底部终端并进入插入模式
+--[[ map("n", "<leader>t", ":botright 10split | terminal<CR>i", opts) -- 打开底部终端并进入插入模式 ]]
 
 -- 可选：兼容终端中使用 Ctrl+C（仅在 GUI 中安全，终端中慎用）
 vim.keymap.set("v", "<C-c>", [["+y]], { noremap = true, silent = true })
@@ -74,6 +72,10 @@ vim.keymap.set("n", "<C-c>", [["+yy]], { noremap = true, silent = true })
 -- 剪切到系统剪贴板
 vim.keymap.set("v", "<C-x>", [["+d]], { noremap = true, silent = true }) -- 可视模式剪切
 vim.keymap.set("n", "<C-x>", [["+dd]], { noremap = true, silent = true }) -- 普通模式剪切整行
+
+-- 黏贴到当前光标位置
+vim.keymap.set("n", "<C-v>", [["+p]], { noremap = true, silent = true })
+vim.keymap.set("v", "<C-v>", [["+p]], { noremap = true, silent = true })
 
 -- ===============================
 -- 文本选择与跳转
@@ -274,3 +276,14 @@ vim.keymap.set("n", "[[", ":normal! [m<CR>", opts)
 -- 在你的 keymaps.lua 中添加
 vim.keymap.set("v", "<Tab>", ">", { noremap = true, silent = true })
 vim.keymap.set("v", "<S-Tab>", "<", { noremap = true, silent = true }) -- Shift+Tab 减少缩进
+
+vim.keymap.set("n", "<leader>e", ":Neotree toggle<CR>", { noremap = true, silent = true })
+
+-- 设置显示 / 不显示 tab
+vim.keymap.set("n", "<leader>tb", function()
+  if vim.o.showtabline == 0 then
+    vim.o.showtabline = 2
+  else
+    vim.o.showtabline = 0
+  end
+end, { desc = "Toggle Bufferline" })
