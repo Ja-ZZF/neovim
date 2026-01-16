@@ -15,34 +15,5 @@ return {
   },
   config = function(_, opts)
     require("neoscroll").setup(opts)
-
-    -- 可选：自定义更精细的映射（覆盖默认行为）
-    local neoscroll = require("neoscroll")
-    local keymap = {
-      ["<C-u>"] = function()
-        neoscroll.ctrl_u({ duration = 300 })
-      end,
-      ["<C-d>"] = function()
-        neoscroll.ctrl_d({ duration = 300 })
-      end,
-      ["<C-b>"] = function()
-        neoscroll.ctrl_b({ duration = 300 })
-      end,
-      ["<C-f>"] = function()
-        neoscroll.ctrl_f({ duration = 300 })
-      end,
-      ["zt"] = function()
-        neoscroll.zt({ half_win_duration = 150 })
-      end,
-      ["zz"] = function()
-        neoscroll.zz({ half_win_duration = 150 })
-      end,
-      ["zb"] = function()
-        neoscroll.zb({ half_win_duration = 150 })
-      end,
-    }
-    for key, fn in pairs(keymap) do
-      vim.keymap.set({ "n", "v", "x" }, key, fn, { silent = true })
-    end
   end,
 }

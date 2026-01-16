@@ -22,7 +22,7 @@ return {
         filesystem = {
           bind_to_cwd = false, -- 不强制绑定到 cwd
           follow_current_file = {
-            enabled = false, -- 自动展开并聚焦当前文件
+            enabled = true, -- 自动展开并聚焦当前文件
           },
           use_libuv_file_watcher = true, -- 使用 libuv 监听文件变化（无需手动刷新）
           filtered_items = {

@@ -16,10 +16,10 @@ return {
         enable_check_bracket_line = true, -- 同一行避免重复括号
       })
 
-      -- 集成 nvim-cmp
-      local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-      local cmp = require("cmp")
-      cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+      -- -- 集成 nvim-cmp
+      -- local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+      -- local cmp = require("cmp")
+      -- cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
     end,
   },
 

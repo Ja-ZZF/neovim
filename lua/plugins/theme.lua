@@ -6,12 +6,6 @@ local active_theme = "onedark"
 
 -- 定义一个通用函数，用于在主题加载后设置自定义高亮
 local function apply_custom_highlights()
-  -- 折叠行颜色（Folded）
-  vim.api.nvim_set_hl(0, "Folded", {
-    bg = "#2a2734", -- 背景色：深灰
-    italic = true,
-  })
-
   -- 💠 设置透明补全菜单
   vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" }) -- 所有浮窗透明
   vim.api.nvim_set_hl(0, "Pmenu", { bg = "NONE", blend = 0 }) -- 补全菜单透明
@@ -178,12 +172,20 @@ local themes = {
         cmp_itemkind_reverse = false, -- reverse item kind highlights in cmp menu
 
         code_style = {
-          comments = "italic",
-          keywords = "italic",
-          functions = "bold",
-          strings = "none",
-          variables = "none",
+          comments = "italic", -- 注释：轻、斜，弱化存在感
+          keywords = "bold", -- 关键字：结构骨架，要稳
+          functions = "bold", -- 函数名：重点
+          strings = "italic", -- 字符串：略微区分
+          variables = "none", -- 变量：保持干净
         },
+
+        -- code_style = {
+        --   comments = "italic",
+        --   keywords = "none",
+        --   functions = "none",
+        --   strings = "italic",
+        --   variables = "none",
+        -- },
 
         lualine = {
           transparent = false, -- lualine center bar transparency

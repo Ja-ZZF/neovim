@@ -47,15 +47,15 @@ map("n", "<leader>q", ":q<CR>", opts) -- 关闭
 -- Telescope 搜索（模糊查找）
 -- 需要安装 telescope.nvim
 -- ===============================
-map("n", "<leader>ff", ":Telescope find_files<CR>", opts) -- 搜索文件 -- 基于项目路径
-map("n", "<leader>fg", ":Telescope live_grep<CR>", opts) -- grep 搜索 -- 基于项目路径
-map("n", "<leader>fb", ":Telescope buffers<CR>", opts) -- 切换 buffer
-map("n", "<leader>fh", ":Telescope help_tags<CR>", opts) -- 查帮助文档
-map("n", "<leader>rf", ":Telescope oldfiles<CR>", opts) -- 查询近期文件
-vim.keymap.set("n", "<leader>gr", "<cmd>Telescope lsp_references<CR>", { desc = "Find References" })
+-- map("n", "<leader>ff", ":Telescope find_files<CR>", opts) -- 搜索文件 -- 基于项目路径
+-- map("n", "<leader>fg", ":Telescope live_grep<CR>", opts) -- grep 搜索 -- 基于项目路径
+-- map("n", "<leader>fb", ":Telescope buffers<CR>", opts) -- 切换 buffer
+-- map("n", "<leader>fh", ":Telescope help_tags<CR>", opts) -- 查帮助文档
+-- map("n", "<leader>rf", ":Telescope oldfiles<CR>", opts) -- 查询近期文件
+-- vim.keymap.set("n", "<leader>gr", "<cmd>Telescope lsp_references<CR>", { desc = "Find References" })
 
 -- 搜索后按 Enter 跳到下一个匹配
-vim.keymap.set("n", "<CR>", "n", { noremap = true, silent = true })
+--[[ vim.keymap.set("n", "<CR>", "n", { noremap = true, silent = true }) ]]
 
 -- 在终端模式中按 Esc 直接退出到普通模式
 vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
@@ -90,14 +90,6 @@ map("n", "vl", "V", opts)
 -- 搜索操作
 -- ===============================
 map("n", "<leader><space>", ":let @/=''<CR>:noh<CR>", opts) -- 清除搜索高亮
-
--- -- 载入 cmake_build 模块
--- local cmake = require("keymaps.cmake_build")
---
--- -- 绑定 F6/F7
--- map("n", "<F6>", cmake.configure, opts)
--- map("n", "<F7>", cmake.build, opts)
--- map("n", "<F8>", cmake.run, opts)
 
 local float_term = {}
 
@@ -172,106 +164,11 @@ function float_term.clear()
   end
 end
 
-local cmake_build = {}
-
-local project_root = vim.fn.getcwd() -- 当前项目根目录
-local build_dir = project_root .. "/build"
-
-local clang_executable = "/usr/local/bin/clang" -- Clang 编译器路径
-local clangxx_executable = "/usr/local/bin/clang++" -- Clang++ 编译器路径
-
--- 复用 terminal
-local term_buf = nil
-local term_chan = nil
-
--- 在浮窗终端执行命令，并可自动打开日志
-local function run_in_float_terminal(cmd, log_file)
-  -- 打开浮窗终端
-  --[[ local chan = term_module.open() ]]
-
-  -- 进入插入模式
-  --[[ vim.cmd("startinsert") ]]
-
-  -- 发送命令
-  -- vim.fn.chansend(chan, cmd .. "\r")
-  float_term.send(cmd)
-  -- 退出插入模式
-  vim.cmd("stopinsert")
-  -- 可选：显示日志文件
-  -- if log_file then
-  --     vim.defer_fn(function()
-  --         if vim.fn.filereadable(log_file) == 1 then
-  --             vim.cmd("edit " .. log_file)
-  --             vim.cmd("normal! G")
-  --         end
-  --     end, 1200)
-  -- end
-end
-
--- F6: 配置 CMake 项目
-function cmake_build.configure()
-  if vim.fn.isdirectory(build_dir) == 0 then
-    vim.fn.mkdir(build_dir)
-    print("Created build directory: " .. build_dir)
-  end
-
-  -- 配置 CMake 的命令
-  local cmd = string.format(
-    'cd "%s" && cmake .. -G Ninja -DCMAKE_C_COMPILER="%s" -DCMAKE_CXX_COMPILER="%s" -DCMAKE_EXPORT_COMPILE_COMMANDS=ON',
-    build_dir,
-    clang_executable,
-    clangxx_executable
-  )
-
-  run_in_float_terminal(cmd, build_dir .. "/cmake_configure.log")
-end
-
--- F7: 编译项目
-function cmake_build.build()
-  if vim.fn.isdirectory(build_dir) == 0 then
-    print("Build directory does not exist. Please configure the project with F6 first.")
-    return
-  end
-
-  -- 编译项目，并输出日志到 cmake_build.log
-  local cmd = string.format('cd "%s" && cmake --build . --parallel --config Debug > cmake_build.log 2>&1', build_dir)
-
-  run_in_float_terminal(cmd, build_dir .. "/cmake_build.log")
-end
-
--- F8: 运行项目
-function cmake_build.run()
-  local cmd = string.format(
-    'cd "%s" && ./*',
-    build_dir .. "/bin" -- 假设编译出的可执行文件是 .out 文件
-  )
-
-  run_in_float_terminal(cmd, build_dir .. "/run_output.log")
-end
-
---
 -- 打开一个弹窗
 map("n", "<leader>ft", float_term.open, opts)
 
--- 绑定 F6/F7
-map("n", "<F6>", cmake_build.configure, opts)
-map("n", "<F7>", cmake_build.build, opts)
-map("n", "<F8>", cmake_build.run, opts)
-
---
--- -- 打开智能聊天
--- local chat = require("keymaps.float_chat")
--- map("n", "<leader>sc", chat.start_chat, opts)
---
 -- 打开诊断窗口
 vim.keymap.set("n", "<leader>xx", ":Trouble diagnostics toggle<CR>", opts)
---
--- 在你的配置中绑定快捷键
--- vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "LSP Rename" })
---
--- 让 ]] 的行为更智能（使用 matchit）
-vim.keymap.set("n", "]]", ":normal! ]m<CR>", opts)
-vim.keymap.set("n", "[[", ":normal! [m<CR>", opts)
 
 -- 在你的 keymaps.lua 中添加
 vim.keymap.set("v", "<Tab>", ">", { noremap = true, silent = true })
