@@ -90,3 +90,12 @@ end
 vim.api.nvim_create_autocmd("ColorScheme", {
   callback = apply_custom_highlights,
 })
+
+-- 使得左右键可以跨行
+vim.o.whichwrap = vim.o.whichwrap .. "<>,h,l"
+
+-- 禁止加载 netrw 核心
+vim.g.loaded_netrw = 1
+
+-- 禁止加载 netrw 的 plugin 层
+vim.g.loaded_netrwPlugin = 1
