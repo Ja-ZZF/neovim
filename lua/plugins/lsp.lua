@@ -40,7 +40,7 @@ return {
           "--background-index",
           "--suggest-missing-includes",
           "--clang-tidy",
-          "--query-driver=/usr/bin/arm-none-eabi-gcc,/usr/bin/arm-none-eabi-g++",
+          -- "--query-driver=/usr/bin/arm-none-eabi-gcc,/usr/bin/arm-none-eabi-g++",
         },
         filetypes = { "c", "cpp", "objc", "objcpp", "cc" },
         root_markers = { ".clangd", "compile_commands.json", "CMakeLists.txt", ".git" },
@@ -63,6 +63,26 @@ return {
       vim.lsp.enable("cmake")
 
       -- =================== Python ===================
+      -- vim.lsp.config["pyright"] = {
+      --   cmd = { "pyright-langserver", "--stdio" },
+      --   root_markers = { "pyproject.toml", "setup.py", "requirements.txt", ".git" },
+      --   capabilities = capabilities,
+      --   on_attach = on_attach,
+      --   settings = {
+      --     python = {
+      --       pythonPath = "./venv/bin/python", -- ⭐ 关键
+      --       analysis = {
+      --         typeCheckingMode = "basic",
+      --         autoSearchPaths = true,
+      --         diagnosticMode = "workspace",
+      --         useLibraryCodeForTypes = true,
+      --         reportAttributeAccessIssue = "none", -- ⭐ 解决 tf.keras
+      --       },
+      --     },
+      --   },
+      -- }
+      -- vim.lsp.enable("pyright")
+
       vim.lsp.config["pyright"] = {
         cmd = { "pyright-langserver", "--stdio" },
         root_markers = { "pyproject.toml", "setup.py", "requirements.txt", ".git" },
@@ -70,13 +90,13 @@ return {
         on_attach = on_attach,
         settings = {
           python = {
-            pythonPath = "./venv/bin/python", -- ⭐ 关键
+            pythonPath = "/home/zzf/miniconda3/envs/dl-env/bin/python",
             analysis = {
               typeCheckingMode = "basic",
               autoSearchPaths = true,
               diagnosticMode = "workspace",
               useLibraryCodeForTypes = true,
-              reportAttributeAccessIssue = "none", -- ⭐ 解决 tf.keras
+              reportAttributeAccessIssue = "none",
             },
           },
         },
@@ -156,7 +176,7 @@ return {
       -- =================== lspsaga ===================
       require("lspsaga").setup({
         ui = { border = "rounded" },
-        symbol_in_winbar = { enable = false },
+        symbol_in_winbar = { enable = true },
         lightbulb = { enable = false, virtual_text = false },
       })
 

@@ -12,6 +12,7 @@ vim.opt.termguicolors = true
 vim.opt.swapfile = false
 vim.opt.mouse = "a"
 vim.opt.laststatus = 3
+vim.opt.clipboard = "unnamedplus"
 
 -- 禁止自动注释续行
 vim.opt.formatoptions:remove({ "c", "r", "o" })

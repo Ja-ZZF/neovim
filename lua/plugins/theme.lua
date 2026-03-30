@@ -2,7 +2,7 @@
 
 -- 定义你想用的主题名字
 -- 可选: "tokyonight" 或 "catppuccin"
-local active_theme = "onedark"
+local active_theme = "monokai"
 
 -- 定义主题配置表
 local themes = {
@@ -11,7 +11,7 @@ local themes = {
     "folke/tokyonight.nvim",
     config = function()
       require("tokyonight").setup({
-        style = "night", -- 可选: "storm", "night", "moon", "day"
+        style = "storm", -- 可选: "storm", "night", "moon", "day"
         transparent = true,
         terminal_colors = true,
         lualine_bold = true, -- When `true`, section headers in the lualine theme will be bold
@@ -194,9 +194,14 @@ local themes = {
     lazy = false, -- make sure we load this during startup if it is your main colorscheme
     priority = 1000, -- make sure to load this before all the other start plugins
     config = function()
-      require("github-theme").setup({})
+      require("github-theme").setup({
+        options = {
+          transparent = true, -- Disable setting bg (make neovim's background transparent)
+          terminal_colors = true,
+        },
+      })
 
-      vim.cmd("colorscheme github_light_default")
+      vim.cmd("colorscheme github_dark")
     end,
   },
 
@@ -238,6 +243,31 @@ local themes = {
 
     config = function()
       vim.cmd("colorscheme melange")
+    end,
+  },
+
+  monokai = {
+    "loctvl842/monokai-pro.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require("monokai-pro").setup({
+        transparent_background = true,
+        terminal_colors = true,
+        devicons = true,
+        styles = {
+          comment = { italic = true },
+          keyword = { italic = true },
+          type = { italic = true },
+          storageclass = { italic = true },
+          structure = { italic = true },
+          parameter = { italic = true },
+          annotation = { italic = true },
+          tag_attribute = { italic = true },
+        },
+        filter = "pro", -- classic | octagon | pro | machine | ristretto | spectrum
+      })
+      vim.cmd.colorscheme("monokai-pro")
     end,
   },
 }

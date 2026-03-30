@@ -18,9 +18,6 @@ for i = 1, 9 do
   map("n", "<leader>" .. i, ":BufferLineGoToBuffer " .. i .. "<CR>", opts)
 end
 
--- 关闭当前 Tab
-map("n", "<leader>c", ":bdelete!<CR>", opts)
-
 -- 分屏操作
 map("n", "<leader><Left>", "<C-w>h", opts) -- 移动到左边窗口
 map("n", "<leader><Down>", "<C-w>j", opts) -- 移动到下边窗口
@@ -38,13 +35,11 @@ map("t", "<Esc>", [[<C-\><C-n>]], opts)
 map("v", "<C-c>", [["+y]], opts)
 map("n", "<C-c>", [["+yy]], opts)
 
--- 剪切到系统剪贴板
-map("v", "<C-x>", [["+d]], opts) -- 可视模式剪切
-map("n", "<C-x>", [["+dd]], opts) -- 普通模式剪切整行
-
 -- 黏贴到当前光标位置
 map("n", "<C-v>", [["+p]], opts)
 map("v", "<C-v>", [["+p]], opts)
+map("n", "p", [["+p]], opts)
+map("v", "p", [["+p]], opts)
 
 -- 文本选择与跳转
 map("n", "vv", "v%", opts)
