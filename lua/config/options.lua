@@ -42,7 +42,7 @@ vim.opt.iskeyword:append("-")
 vim.o.whichwrap = vim.o.whichwrap .. "<>,h,l"
 
 -- 禁止加载 netrw 核心
-vim.g.loaded_netrw = 1
-
--- 禁止加载 netrw 的 plugin 层
-vim.g.loaded_netrwPlugin = 1
+-- vim.g.loaded_netrw = 1
+--
+-- -- 禁止加载 netrw 的 plugin 层
+-- vim.g.loaded_netrwPlugin = 1

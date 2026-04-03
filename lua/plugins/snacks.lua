@@ -4,7 +4,7 @@ return {
   lazy = false,
   opts = {
     indent = {
-      enabled = true,
+      enabled = false,
 
       -- 背景灰色普通缩进线
       indent = {
