@@ -67,7 +67,7 @@ return {
         },
       },
       menu = {
-        auto_show = true,
+        auto_show = false,
         scrollbar = false,
         border = "rounded",
         winhighlight = "Normal:BlinkCmpMenu,FloatBorder:FloatBorder,CursorLine:BlinkCmpMenuSelection,Search:None",

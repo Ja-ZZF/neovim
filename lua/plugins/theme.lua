@@ -2,7 +2,7 @@
 
 -- 定义你想用的主题名字
 -- 可选: "tokyonight" 或 "catppuccin"
-local active_theme = "onedark"
+local active_theme = "monokai"
 
 -- 定义主题配置表
 local themes = {
