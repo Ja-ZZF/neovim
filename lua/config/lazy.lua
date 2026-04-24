@@ -25,6 +25,7 @@ require("lazy").setup({
     { import = "plugins.noice" },
     { import = "plugins.neo-scroll" },
     { import = "plugins.blink-cmp"},
+    { import = "plugins.misc"},
 
   },
   defaults = {

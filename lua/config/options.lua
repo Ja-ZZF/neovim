@@ -18,7 +18,7 @@ vim.opt.clipboard = "unnamedplus"
 vim.opt.formatoptions:remove({ "c", "r", "o" })
 
 vim.opt.cursorline = true -- 开启光标行高亮（可以只高亮行号）
-vim.opt.cursorlineopt = "number" -- 只高亮行号，而不是整行
+-- vim.opt.cursorlineopt = "number" -- 只高亮行号，而不是整行
 
 -- 全局 LSP 诊断配置
 vim.diagnostic.config({
