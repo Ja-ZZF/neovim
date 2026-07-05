@@ -26,6 +26,10 @@ require("lazy").setup({
     { import = "plugins.neo-scroll" },
     { import = "plugins.blink-cmp"},
     { import = "plugins.misc"},
+    { import = "plugins.neo-tree"},
+    { import = "plugins.lsp"},
+    { import = "plugins.bufferline"},
+    { import = "plugins.mason"}
 
   },
   defaults = {

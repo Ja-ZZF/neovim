@@ -2,7 +2,7 @@
 
 -- 定义你想用的主题名字
 -- 可选: "tokyonight" 或 "catppuccin"
-local active_theme = "monokai"
+local active_theme = "onedark"
 
 -- 定义主题配置表
 local themes = {
@@ -11,7 +11,7 @@ local themes = {
     "folke/tokyonight.nvim",
     config = function()
       require("tokyonight").setup({
-        style = "storm", -- 可选: "storm", "night", "moon", "day"
+        style = "night", -- 可选: "storm", "night", "moon", "day"
         transparent = true,
         terminal_colors = true,
         lualine_bold = true, -- When `true`, section headers in the lualine theme will be bold

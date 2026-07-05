@@ -88,18 +88,18 @@ return {
         root_markers = { "pyproject.toml", "setup.py", "requirements.txt", ".git" },
         capabilities = capabilities,
         on_attach = on_attach,
-        settings = {
-          python = {
-            pythonPath = "/home/zzf/miniconda3/envs/dl-env/bin/python",
-            analysis = {
-              typeCheckingMode = "basic",
-              autoSearchPaths = true,
-              diagnosticMode = "workspace",
-              useLibraryCodeForTypes = true,
-              reportAttributeAccessIssue = "none",
-            },
-          },
-        },
+        -- settings = {
+        --   python = {
+        --     pythonPath = "/home/zzf/miniconda3/envs/dl-env/bin/python",
+        --     analysis = {
+        --       typeCheckingMode = "basic",
+        --       autoSearchPaths = true,
+        --       diagnosticMode = "workspace",
+        --       useLibraryCodeForTypes = true,
+        --       reportAttributeAccessIssue = "none",
+        --     },
+        --   },
+        -- },
       }
       vim.lsp.enable("pyright")
 
